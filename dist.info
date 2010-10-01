@@ -1,0 +1,15 @@
+--- This file is part of LuaDist project
+
+name = "tokyocabinet_lua"
+version = "1.8"
+
+desc = "Lua Binding of Tokyo Cabinet"
+author = "Mikio Hirabayashi"
+license = "GNU LGPL"
+url = "http://1978th.net/tokyocabinet/"
+maintainer = "Peter Kapec"
+
+depends = {
+	"lua ~> 5.1",
+	"tokyocabinet >= 1.4.29"
+}
