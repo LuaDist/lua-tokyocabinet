@@ -1,6 +1,6 @@
 --- This file is part of LuaDist project
 
-name = "tokyocabinet_lua"
+name = "lua-tokyocabinet"
 version = "1.8"
 
 desc = "Lua Binding of Tokyo Cabinet"

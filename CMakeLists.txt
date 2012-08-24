@@ -1,28 +1,25 @@
-# Copyright (C) 2007-2009 LuaDist.
+# Copyright (C) 2007-2012 LuaDist.
 # Created by Peter Kapec
 # Redistribution and use of this file is allowed according to the terms of the MIT license.
 # For details see the COPYRIGHT file distributed with LuaDist.
 # Please note that the package source code is licensed under its own license.
 
-PROJECT(tokyocabinet_lua C)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-INCLUDE(dist.cmake)
+project ( tokyocabinet_lua C )
+cmake_minimum_required ( VERSION 2.8 )
+include ( cmake/dist.cmake )
+include ( lua )
 
 # Find TC
-FIND_PACKAGE(TokyoCabinet REQUIRED)
+find_package ( TokyoCabinet REQUIRED )
 
 # Build
-INCLUDE_DIRECTORIES(${TOKYOCABINET_INCLUDE_DIRS})
-ADD_DEFINITIONS(--std=c99 -D_GNU_SOURCE=1)
+include_directories ( ${TOKYOCABINET_INCLUDE_DIRS} )
+add_definitions ( --std=c99 -D_GNU_SOURCE=1 )
 
-ADD_LUA_MODULE(tokyocabinet tokyocabinet.c)
-TARGET_LINK_LIBRARIES(tokyocabinet ${TOKYOCABINET_LIBRARIES})
+install_lua_module ( tokyocabinet tokyocabinet.c LINK ${TOKYOCABINET_LIBRARIES} )
 
 # Install all files and documentation
-INSTALL(TARGETS tokyocabinet DESTINATION ${INSTALL_CMOD})
-
-INSTALL(FILES overview.html COPYING DESTINATION ${INSTALL_DATA})
-INSTALL(DIRECTORY doc/ DESTINATION ${INSTALL_DOC})
-
-INSTALL(DIRECTORY example/ DESTINATION ${INSTALL_EXAMPLE})
-INSTALL(FILES tcbtest.lua tcftest.lua tchtest.lua tcutest.lua DESTINATION ${INSTALL_TEST})
+install_data ( COPYING )
+install_doc ( doc/ )
+install_example ( example/ )
+install_test ( tcbtest.lua tcftest.lua tchtest.lua tcutest.lua )
