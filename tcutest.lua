@@ -2,7 +2,7 @@
 
 --------------------------------------------------------------------------------------------------
 -- The test cases of the utility API
---                                                      Copyright (C) 2006-2009 Mikio Hirabayashi
+--                                                               Copyright (C) 2006-2010 FAL Labs
 -- This file is part of Tokyo Cabinet.
 -- Tokyo Cabinet is free software; you can redistribute it and/or modify it under the terms of
 -- the GNU Lesser General Public License as published by the Free Software Foundation; either
@@ -150,13 +150,22 @@ function procmisc(rnum)
          eprint("bit")
          err = true
       end
+      local mstr = math.random(rnum);
+      if tokyocabinet.strstr(mstr, mstr) ~= 1 then
+         eprint("strstr")
+         err = true
+      end
+      if not tokyocabinet.strstr(mstr, mstr, "hoge") then
+         eprint("strstr")
+         err = true
+      end
       local rstr = math.random(rnum);
       if not tokyocabinet.regex(rstr, rstr) then
          eprint("regex")
          err = true
       end
-      local alt = tostring(math.random(rnum))
-      if tokyocabinet.regex(rstr, "^" .. rstr .. "$", alt) ~= alt then
+      local ralt = tostring(math.random(rnum))
+      if tokyocabinet.regex(rstr, "^" .. rstr .. "$", ralt) ~= ralt then
          eprint("regex")
          err = true
       end

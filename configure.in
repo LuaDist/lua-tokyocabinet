@@ -7,7 +7,7 @@
 #================================================================
 
 # Package name
-AC_INIT(tokyocabinet-lua, 1.8)
+AC_INIT(tokyocabinet-lua, 1.10)
 
 # Targets
 MYLIBRARYFILES=""

@@ -1,5 +1,5 @@
--- Ruby binding of Tokyo Cabinet
---                                                       Copyright (C) 2006-2009 Mikio Hirabayashi
+-- Lua binding of Tokyo Cabinet
+--                                                                Copyright (C) 2006-2010 FAL Labs
 --  This file is part of Tokyo Cabinet.
 --  Tokyo Cabinet is free software; you can redistribute it and/or modify it under the terms of
 --  the GNU Lesser General Public License as published by the Free Software Foundation; either
@@ -127,6 +127,15 @@ end
 -- @param aux the auxiliary operand for some operators.
 -- @return the result value.
 function tokyocabinet.bit(mode, num, aux)
+   -- (native code)
+end
+
+--- Perform substring matching or replacement without evaluating any meta character.
+-- @param str the source string.
+-- @param pattern the matching pattern.
+-- @param alt the alternative string corresponding for the pattern.  If it is not defined, matching check is performed.
+-- @return If the alternative string is specified, the converted string is returned.  If the alternative string is not specified, the index of the substring matching the given pattern or 0 is returned.
+function tokyocabinet.strstr(str, pattern, alt)
    -- (native code)
 end
 
@@ -1310,7 +1319,7 @@ function tdbqry:proc()
   -- (native code)
 end
 
---- Get the hint of a query object.
+--- Get the hint string.
 -- @return the hint string.
 function tdbqry:hint()
   -- (native code)

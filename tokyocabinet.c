@@ -1,6 +1,6 @@
 /*************************************************************************************************
  * Lua binding of Tokyo Cabinet
- *                                                      Copyright (C) 2006-2009 Mikio Hirabayashi
+ *                                                               Copyright (C) 2006-2010 FAL Labs
  * This file is part of Tokyo Cabinet.
  * Tokyo Cabinet is free software; you can redistribute it and/or modify it under the terms of
  * the GNU Lesser General Public License as published by the Free Software Foundation; either
@@ -133,6 +133,7 @@ static int util_split(lua_State *lua);
 static int util_codec(lua_State *lua);
 static int util_hash(lua_State *lua);
 static int util_bit(lua_State *lua);
+static int util_strstr(lua_State *lua);
 static int util_regex(lua_State *lua);
 static int util_ucs(lua_State *lua);
 static int util_dist(lua_State *lua);
@@ -469,6 +470,8 @@ static void util_init(lua_State *lua){
   lua_setfield(lua, -2, "hash");
   lua_pushcfunction(lua, util_bit);
   lua_setfield(lua, -2, "bit");
+  lua_pushcfunction(lua, util_strstr);
+  lua_setfield(lua, -2, "strstr");
   lua_pushcfunction(lua, util_regex);
   lua_setfield(lua, -2, "regex");
   lua_pushcfunction(lua, util_ucs);
@@ -1108,6 +1111,51 @@ static int util_bit(lua_State *lua){
   }
   lua_settop(lua, 0);
   lua_pushnumber(lua, num);
+  return 1;
+}
+
+
+/* for strstr function */
+static int util_strstr(lua_State *lua){
+  int argc = lua_gettop(lua);
+  if(argc < 2){
+    lua_pushstring(lua, "strstr: invalid arguments");
+    lua_error(lua);
+  }
+  const char *str = lua_tostring(lua, 1);
+  const char *pat = lua_tostring(lua, 2);
+  if(!str || !pat){
+    lua_pushstring(lua, "strstr: invalid arguments");
+    lua_error(lua);
+  }
+  const char *alt = argc > 2 ? lua_tostring(lua, 3) : NULL;
+  if(alt){
+    TCXSTR *xstr = tcxstrnew();
+    int plen = strlen(pat);
+    int alen = strlen(alt);
+    if(plen > 0){
+      char *pv;
+      while((pv = strstr(str, pat)) != NULL){
+        tcxstrcat(xstr, str, pv - str);
+        tcxstrcat(xstr, alt, alen);
+        str = pv + plen;
+      }
+    }
+    tcxstrcat2(xstr, str);
+    lua_settop(lua, 0);
+    lua_pushstring(lua, tcxstrptr(xstr));
+    tcxstrdel(xstr);
+  } else {
+    char *pv = strstr(str, pat);
+    if(pv){
+      int idx = pv - str + 1;
+      lua_settop(lua, 0);
+      lua_pushinteger(lua, idx);
+    } else {
+      lua_settop(lua, 0);
+      lua_pushinteger(lua, 0);
+    }
+  }
   return 1;
 }
 

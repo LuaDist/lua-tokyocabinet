@@ -1,7 +1,7 @@
 --- This file is part of LuaDist project
 
 name = "lua-tokyocabinet"
-version = "1.8"
+version = "1.10"
 
 desc = "Lua Binding of Tokyo Cabinet"
 author = "Mikio Hirabayashi"
@@ -11,5 +11,5 @@ maintainer = "Peter Kapec"
 
 depends = {
 	"lua ~> 5.1",
-	"tokyocabinet >= 1.4.29"
+	"tokyocabinet >= 1.4.48"
 }
